@@ -6,12 +6,13 @@ let gap_size = 200;
 let img;
 let game_over = false;
 let touching = false;
+let score = 0;
 function preload() {
   img = loadImage('assets/jumping.png');
 }
 
 function setup() {
-
+  score = 0;
   frame_counter = 0;
   pillars = [];
   // put setup code here
@@ -28,6 +29,7 @@ function draw() {
   frame_counter += 1;
   if(frame_counter > 100){
     frame_counter = 0;
+    score += 1;
     pillars.push(new obstacle());
   }
   // put drawing code here
@@ -61,7 +63,14 @@ function draw() {
       }
       //noLoop();
     }
+
   }
+
+  textSize(height/10);
+  textAlign(CENTER);
+  fill(255, 0, 0)
+  text("Score", width/6, floor + height/10);
+  text(score, 3 * width/6, floor + height/10);
 
 
   //global_x += 5;
@@ -99,7 +108,7 @@ function touchStarted(){
   touching = true;
 }
 
-fucntion touchEnded(){
+function touchEnded(){
   touching = false;
 }
 class Player {
