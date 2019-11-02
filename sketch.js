@@ -2,7 +2,7 @@ let trail_count = 50;
 let floor;
 let pillars = [];
 let frame_counter;
-let gap_size = 200;
+let gap_size = 170;
 let img;
 let game_over = false;
 let touching = false;
@@ -209,7 +209,7 @@ class trail_info {
 class obstacle{
   constructor(old){
     this.gap_bottom = random(0 + gap_size, floor);
-    while(this.gap_bottom - old > 300 || old - this.gap_bottom > 300){
+    while(this.gap_bottom - old > 350 || old - this.gap_bottom > 350){
       this.gap_bottom = random(0 + gap_size, floor);
     }
     this.x = width;
