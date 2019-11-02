@@ -5,7 +5,7 @@ let frame_counter;
 let gap_size = 200;
 let img;
 let game_over = false;
-
+let touching = false;
 function preload() {
   img = loadImage('assets/jumping.png');
 }
@@ -74,6 +74,10 @@ function keyPressed() {
       player.in_air = true;
       this.y_v = 1;
     }
+    if(game_over == true){
+      game_over = false;
+      setup();
+    }
   }
   if (keyCode === ENTER) {
     if(game_over == true){
@@ -83,6 +87,21 @@ function keyPressed() {
   }
 }
 
+function touchStarted(){
+  if(game_over == true){
+    game_over = false;
+    setup();
+  }
+  if(player.in_air != true){
+    player.in_air = true;
+    this.y_v = 1;
+  }
+  touching = true;
+}
+
+fucntion touchEnded(){
+  touching = false;
+}
 class Player {
   constructor() {
     this.x = width / 4;
@@ -100,7 +119,7 @@ class Player {
   }
   update(){
     this.y_v += .1;
-    if (keyIsDown(32)) {
+    if (keyIsDown(32) || touching) {
       if(player.in_air == true){
         player.y_v -= .2;
         this.trail[this.trail_pointer % trail_count] = new trail_info(this.x + (this.diameter/2.9), (this.y + this.diameter/1.75) );
