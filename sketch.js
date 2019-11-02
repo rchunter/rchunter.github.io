@@ -7,6 +7,7 @@ let img;
 let game_over = false;
 let touching = false;
 let score = 0;
+var old_gap = 300;
 function preload() {
   img = loadImage('assets/jumping.png');
 }
@@ -25,12 +26,18 @@ function setup() {
 
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 function draw() {
   frame_counter += 1;
   if(frame_counter > 100){
     frame_counter = 0;
     score += 1;
-    pillars.push(new obstacle());
+    var a = new obstacle(old_gap)
+    old_gap = a.gap_bottom;
+    pillars.push(a);
   }
   // put drawing code here
 
@@ -53,10 +60,10 @@ function draw() {
       if(player.y > pillars[i].gap_bottom - 100 || player.y < pillars[i].gap_bottom - gap_size){
         fill(0, 0, 0, 230);
         rect(0, 0, width, height);
-        textSize(height/10);
+        textSize(height/14);
         textAlign(CENTER);
         fill(255, 0, 0)
-        text("You got too close to a super spooky wall and had a heart attack, killing you instantly. Press Enter to play again.", width/6, height/6, 4*width/6, 4*height/6)
+        text("You got too close to a super spooky wall and had a heart attack, killing you instantly.", width/6, height/6, 4*width/6, 4*height/6)
         game_over = true;
         noLoop();
         break;
@@ -68,9 +75,9 @@ function draw() {
 
   textSize(height/10);
   textAlign(CENTER);
-  fill(255, 0, 0)
-  text("Score", width/6, floor + height/10);
-  text(score, 3 * width/6, floor + height/10);
+  fill(100, 100, 100)
+  text("Score", 2*width/6, floor + height/7);
+  text(score, 4 * width/6, floor + height/7);
 
 
   //global_x += 5;
@@ -200,8 +207,11 @@ class trail_info {
 }
 
 class obstacle{
-  constructor(){
+  constructor(old){
     this.gap_bottom = random(0 + gap_size, floor);
+    while(this.gap_bottom - old > 300 || old - this.gap_bottom > 300){
+      this.gap_bottom = random(0 + gap_size, floor);
+    }
     this.x = width;
     this.r = random(100, 255);
     this.g = random(100);
